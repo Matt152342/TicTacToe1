@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: gcc.exe build active file",
+			"command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+			"args": [
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}.exe",
+				"-I", "${workspaceFolder}/include",      // Look here for headers
+				"-L", "${workspaceFolder}/lib",          // Look here for library files
+				"-lraylib",                              // Link the raylib library
+				"-lopengl32",                            // Required dependency
+				"-lgdi32",                               // Required dependency
+				"-lwinmm",                                // Required dependency
+				"-lshell32"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:\\msys64\\ucrt64\\bin\\gcc.exe"
+		}
+	]
+}
