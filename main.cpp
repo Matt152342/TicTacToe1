@@ -27,7 +27,8 @@ int main() {
     grid[8] = {screenWidth - gridWidth, screenHeight - gridHeight, gridWidth, gridHeight};
 
     while(!WindowShouldClose()) {
-        // Update
+        // Creating mouse hover effect over gridf Rects
+        Vector2 mousePosition = GetMousePosition();
 
         // Draw
         BeginDrawing();
@@ -35,8 +36,13 @@ int main() {
             DrawLine(screenWidth - 400, 0, screenWidth - 400, screenHeight, BLACK);
 
             // Draw grid
-            for (int i = 0; i < sizeof(grid); i++) {
-                DrawRectangleRec(grid[i], gridRectColor);
+            for (int i = 0; i < 9; i++) {
+                if (CheckCollisionPointRec(mousePosition, grid[i])) {
+                    DrawRectangleRec(grid[i], {150, 150, 150, 255});
+                } 
+                else {
+                    DrawRectangleRec(grid[i], gridRectColor);
+                }
             }
         EndDrawing();
     }
