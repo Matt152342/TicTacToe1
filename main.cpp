@@ -11,7 +11,7 @@ int main() {
     // Set grid
     float gridWidth = 130.0f;
     float gridHeight = 130.0f;
-    Color gridRectColor = {210, 210, 210, 255};
+    Color gridRectColor = {200, 200, 200, 255};
     Rectangle grid[9];
         // Row 1
     grid[0] = {screenWidth - 400, 0, gridWidth, gridHeight};
@@ -29,6 +29,7 @@ int main() {
     while(!WindowShouldClose()) {
         // Creating mouse hover effect over gridf Rects
         Vector2 mousePosition = GetMousePosition();
+        bool canHover[9] = {true, true, true, true, true, true, true, true, true};
 
         // Draw
         BeginDrawing();
@@ -37,9 +38,10 @@ int main() {
 
             // Draw grid
             for (int i = 0; i < 9; i++) {
-                if (CheckCollisionPointRec(mousePosition, grid[i])) {
+                // Change grid colour upon mouse hover
+                if (CheckCollisionPointRec(mousePosition, grid[i]) && canHover[i] == true) {
                     DrawRectangleRec(grid[i], {150, 150, 150, 255});
-                } 
+                }
                 else {
                     DrawRectangleRec(grid[i], gridRectColor);
                 }
