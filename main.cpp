@@ -11,8 +11,11 @@ int main() {
     // Set grid
     float gridWidth = 130.0f;
     float gridHeight = 130.0f;
-    Color gridRectColor = {200, 200, 200, 255};
+    Color gridHoverColor = {220, 220, 220, 255};
+    Color gridClickedColor = {50, 50, 50, 255};
+
     Rectangle grid[9];
+    bool canHover[9] = {true, true, true, true, true, true, true, true, true};
         // Row 1
     grid[0] = {screenWidth - 400, 0, gridWidth, gridHeight};
     grid[1] = {screenWidth - 265, 0, gridWidth, gridHeight};
@@ -29,7 +32,6 @@ int main() {
     while(!WindowShouldClose()) {
         // Creating mouse hover effect over gridf Rects
         Vector2 mousePosition = GetMousePosition();
-        bool canHover[9] = {true, true, true, true, true, true, true, true, true};
 
         // Draw
         BeginDrawing();
@@ -38,12 +40,17 @@ int main() {
 
             // Draw grid
             for (int i = 0; i < 9; i++) {
-                // Change grid colour upon mouse hover
+                // Change grid colour based on hover bool
                 if (CheckCollisionPointRec(mousePosition, grid[i]) && canHover[i] == true) {
-                    DrawRectangleRec(grid[i], {150, 150, 150, 255});
+                    DrawRectangleRec(grid[i], gridHoverColor);
                 }
-                else {
-                    DrawRectangleRec(grid[i], gridRectColor);
+                else if (canHover[i] == false) {
+                    DrawRectangleRec(grid[i], gridClickedColor);
+                }
+
+                // Check for mouse pressed on grid
+                if (CheckCollisionPointRec(mousePosition, grid[i]) && IsMouseButtonPressed(0)) {
+                    canHover[i] = false;
                 }
             }
         EndDrawing();
