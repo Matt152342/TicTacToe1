@@ -12,7 +12,7 @@ int main() {
     float gridWidth = 130.0f;
     float gridHeight = 130.0f;
     Color gridHoverColor = {220, 220, 220, 255};
-    Color gridClickedColor = {50, 50, 50, 255};
+    Color playerColor = {80, 180, 80, 255};
 
     Rectangle grid[9];
     bool canHover[9] = {true, true, true, true, true, true, true, true, true};
@@ -37,15 +37,14 @@ int main() {
         BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawLine(screenWidth - 400, 0, screenWidth - 400, screenHeight, BLACK);
-
-            // Draw grid
+            
             for (int i = 0; i < 9; i++) {
                 // Change grid colour based on hover bool
                 if (CheckCollisionPointRec(mousePosition, grid[i]) && canHover[i] == true) {
                     DrawRectangleRec(grid[i], gridHoverColor);
                 }
                 else if (canHover[i] == false) {
-                    DrawRectangleRec(grid[i], gridClickedColor);
+                    DrawRectangleRec(grid[i], playerColor);
                 }
 
                 // Check for mouse pressed on grid
