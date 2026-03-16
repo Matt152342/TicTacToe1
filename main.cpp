@@ -8,7 +8,9 @@ int main() {
     InitWindow(screenWidth, screenHeight, "TicTacToe");
     SetTargetFPS(60);
 
-    // Set grid
+    bool playerTurn = true;
+
+    // grid attributes
     float gridWidth = 130.0f;
     float gridHeight = 130.0f;
     Color gridHoverColor = {220, 220, 220, 255};
@@ -33,11 +35,16 @@ int main() {
         // Creating mouse hover effect over gridf Rects
         Vector2 mousePosition = GetMousePosition();
 
+        if (playerTurn == true) {
+                DrawText("Player turn", 0, 0, 30, BLACK);
+            }
+
         // Draw
         BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawLine(screenWidth - 400, 0, screenWidth - 400, screenHeight, BLACK);
             
+            // Grid
             for (int i = 0; i < 9; i++) {
                 // Change grid colour based on hover bool
                 if (CheckCollisionPointRec(mousePosition, grid[i]) && canHover[i] == true) {
@@ -48,8 +55,9 @@ int main() {
                 }
 
                 // Check for mouse pressed on grid
-                if (CheckCollisionPointRec(mousePosition, grid[i]) && IsMouseButtonPressed(0)) {
+                if (CheckCollisionPointRec(mousePosition, grid[i]) && IsMouseButtonPressed(0) && playerTurn == true) {
                     canHover[i] = false;
+                    playerTurn = false;
                 }
             }
         EndDrawing();
