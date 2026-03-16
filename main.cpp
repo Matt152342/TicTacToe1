@@ -9,6 +9,7 @@ int main() {
     SetTargetFPS(60);
 
     bool playerTurn = true;
+    bool botTurn = false;
 
     // grid attributes
     float gridWidth = 130.0f;
@@ -35,9 +36,13 @@ int main() {
         // Creating mouse hover effect over gridf Rects
         Vector2 mousePosition = GetMousePosition();
 
+        // Checks if it's player's turn or not
         if (playerTurn == true) {
-                DrawText("Player turn", 0, 0, 30, BLACK);
-            }
+            DrawText("Player turn", 0, 0, 30, BLACK);
+        }
+        else {
+            DrawText("Bot's turn", 0, 0, 30, BLACK);
+        }
 
         // Draw
         BeginDrawing();
