@@ -18,7 +18,10 @@ int main() {
     Color playerColor = {80, 180, 80, 255};
 
     Rectangle grid[9];
-    bool canHover[9] = {true, true, true, true, true, true, true, true, true};
+    int board[9] = {0, 0, 0,
+                    0, 0, 0,
+                    0, 0, 0}; // 0 = empty, 1 = player, 2 = enemy
+
         // Row 1
     grid[0] = {screenWidth - 400, 0, gridWidth, gridHeight};
     grid[1] = {screenWidth - 265, 0, gridWidth, gridHeight};
@@ -37,11 +40,19 @@ int main() {
         Vector2 mousePosition = GetMousePosition();
 
         // Checks if it's player's turn or not
-        if (playerTurn == true) {
+        if (playerTurn) {
             DrawText("Player turn", 0, 0, 30, BLACK);
         }
         else {
             DrawText("Bot's turn", 0, 0, 30, BLACK);
+        }
+
+        // AI logic
+        for (int i = 0; i < 9; i++) {
+            // Take center if free
+            if (botTurn && board[4] != 1) {
+                board[4] = 2;
+            }
         }
 
         // Draw
@@ -51,18 +62,24 @@ int main() {
             
             // Grid
             for (int i = 0; i < 9; i++) {
-                // Change grid colour based on hover bool
-                if (CheckCollisionPointRec(mousePosition, grid[i]) && canHover[i] == true) {
+                // Change grid colour based on hover
+                if (CheckCollisionPointRec(mousePosition, grid[i]) && board[i] == 0) {
                     DrawRectangleRec(grid[i], gridHoverColor);
                 }
-                else if (canHover[i] == false) {
+
+                // Change grid colours based on block state
+                else if (board[i] == 1) {
                     DrawRectangleRec(grid[i], playerColor);
+                }
+                else if (board[i] == 2) {
+                    DrawRectangleRec(grid[i], RED);
                 }
 
                 // Check for mouse pressed on grid
                 if (CheckCollisionPointRec(mousePosition, grid[i]) && IsMouseButtonPressed(0) && playerTurn == true) {
-                    canHover[i] = false;
+                    board[i] = 1;
                     playerTurn = false;
+                    botTurn = true;
                 }
             }
         EndDrawing();
