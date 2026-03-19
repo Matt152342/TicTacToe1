@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <raylib.h>
 
@@ -8,8 +10,10 @@ int main() {
     InitWindow(screenWidth, screenHeight, "TicTacToe");
     SetTargetFPS(60);
 
+    std::srand(std::time(0));
+
     bool playerTurn = true;
-    bool botTurn = false;
+    int playerMove = 0;
 
     // grid attributes
     float gridWidth = 130.0f;
@@ -50,8 +54,18 @@ int main() {
         // AI logic
         for (int i = 0; i < 9; i++) {
             // Take center if free
-            if (botTurn && board[4] != 1) {
-                board[4] = 2;
+            if (playerMove == 1 && !playerTurn) {
+                if (board[4] != 1) {
+                    board[4] = 2;
+                    playerTurn = true;
+                }
+                else {
+                    int randomBlock = rand() % 10;
+                    if (board[randomBlock] != 1) {
+                        board[randomBlock] = 2;
+                        playerTurn = true;
+                    }
+                }
             }
         }
 
@@ -78,8 +92,8 @@ int main() {
                 // Check for mouse pressed on grid
                 if (CheckCollisionPointRec(mousePosition, grid[i]) && IsMouseButtonPressed(0) && playerTurn == true) {
                     board[i] = 1;
+                    playerMove++;
                     playerTurn = false;
-                    botTurn = true;
                 }
             }
         EndDrawing();
